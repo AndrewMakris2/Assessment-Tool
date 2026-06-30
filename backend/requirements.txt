@@ -1,0 +1,11 @@
+fastapi
+uvicorn
+anthropic
+reportlab
+python-dotenv
+pydantic
+pyotp
+qrcode[pil]
+bcrypt
+slowapi
+cryptography

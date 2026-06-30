@@ -1,0 +1,8 @@
+__pycache__
+*.pyc
+.env
+venv/
+.totp_secrets.json
+cyberassess.db
+.sessions.json
+audit.log

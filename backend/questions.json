@@ -1,0 +1,751 @@
+[
+  {
+    "id": "AM-01",
+    "domain": "Asset Management",
+    "question": "Do you maintain a current inventory of all hardware assets (servers, workstations, mobile devices)?",
+    "weight": 3,
+    "answers": [
+      {"label": "Fully Implemented", "score": 1.0},
+      {"label": "Partially Implemented", "score": 0.5},
+      {"label": "Not Implemented", "score": 0.0},
+      {"label": "N/A", "score": null}
+    ],
+    "flag_if": "Not Implemented",
+    "severity": "High",
+    "effort": "Low",
+    "fix_hint": "Start with a simple spreadsheet listing every device, its owner, OS version, and whether it stores sensitive data.",
+    "smb_context": {
+      "Healthcare": "Include any device storing ePHI. Required under HIPAA Security Rule §164.310(d).",
+      "Finance": "Include devices processing payment or account data. Required for PCI-DSS scope definition."
+    }
+  },
+  {
+    "id": "AM-02",
+    "domain": "Asset Management",
+    "question": "Do you maintain a current inventory of all software assets and licenses?",
+    "weight": 3,
+    "answers": [
+      {"label": "Fully Implemented", "score": 1.0},
+      {"label": "Partially Implemented", "score": 0.5},
+      {"label": "Not Implemented", "score": 0.0},
+      {"label": "N/A", "score": null}
+    ],
+    "flag_if": "Not Implemented",
+    "severity": "Medium",
+    "effort": "Low",
+    "fix_hint": "List all installed applications and SaaS services. Free tools like Belarc Advisor can auto-discover installed software.",
+    "smb_context": {}
+  },
+  {
+    "id": "AM-03",
+    "domain": "Asset Management",
+    "question": "Are unauthorized devices automatically detected and prevented from accessing your network?",
+    "weight": 2,
+    "answers": [
+      {"label": "Fully Implemented", "score": 1.0},
+      {"label": "Partially Implemented", "score": 0.5},
+      {"label": "Not Implemented", "score": 0.0},
+      {"label": "N/A", "score": null}
+    ],
+    "flag_if": "Not Implemented",
+    "severity": "Medium",
+    "effort": "High",
+    "fix_hint": "For small offices, start with MAC address filtering on your router/AP. For larger networks, consider a NAC solution.",
+    "smb_context": {
+      "Healthcare": "For small practices, this could mean setting up a separate guest Wi-Fi and restricting the clinical network to known devices.",
+      "Finance": "Segment payment processing devices on their own VLAN."
+    }
+  },
+  {
+    "id": "AM-04",
+    "domain": "Asset Management",
+    "question": "Do you have a formal process for decommissioning and securely wiping retired assets?",
+    "weight": 2,
+    "answers": [
+      {"label": "Fully Implemented", "score": 1.0},
+      {"label": "Partially Implemented", "score": 0.5},
+      {"label": "Not Implemented", "score": 0.0},
+      {"label": "N/A", "score": null}
+    ],
+    "flag_if": "Not Implemented",
+    "severity": "High",
+    "effort": "Low",
+    "fix_hint": "Write a one-page media disposal policy. Use DBAN (free) or a certified e-waste vendor with a Certificate of Destruction.",
+    "smb_context": {
+      "Healthcare": "HIPAA requires documented media sanitization. Never sell, donate, or discard devices without a verified wipe."
+    }
+  },
+  {
+    "id": "AM-05",
+    "domain": "Asset Management",
+    "question": "Are all assets assigned a designated owner responsible for their security?",
+    "weight": 1,
+    "answers": [
+      {"label": "Fully Implemented", "score": 1.0},
+      {"label": "Partially Implemented", "score": 0.5},
+      {"label": "Not Implemented", "score": 0.0},
+      {"label": "N/A", "score": null}
+    ],
+    "flag_if": "Not Implemented",
+    "severity": "Low",
+    "effort": "Low",
+    "fix_hint": "Add an 'Owner' column to your asset inventory. For small teams, the office manager or IT contact is a reasonable default.",
+    "smb_context": {}
+  },
+  {
+    "id": "AC-01",
+    "domain": "Access Control & IAM",
+    "question": "Do you enforce multi-factor authentication (MFA) on all user accounts?",
+    "weight": 3,
+    "answers": [
+      {"label": "Fully Implemented", "score": 1.0},
+      {"label": "Partially Implemented", "score": 0.5},
+      {"label": "Not Implemented", "score": 0.0},
+      {"label": "N/A", "score": null}
+    ],
+    "flag_if": "Not Implemented",
+    "severity": "Critical",
+    "effort": "Low",
+    "fix_hint": "Enable Security Defaults in Microsoft 365 (free) or turn on 2FA in Google Workspace. Takes 30 minutes, prevents 99.9% of account compromise.",
+    "na_restricted": ["Healthcare", "Finance", "Legal"],
+    "smb_context": {
+      "Healthcare": "MFA is considered an addressable standard under HIPAA. Opting out requires documented justification.",
+      "Finance": "PCI-DSS 4.0 requires MFA for all access to cardholder data environments."
+    }
+  },
+  {
+    "id": "AC-02",
+    "domain": "Access Control & IAM",
+    "question": "Do you enforce the principle of least privilege for all user access rights?",
+    "weight": 3,
+    "answers": [
+      {"label": "Fully Implemented", "score": 1.0},
+      {"label": "Partially Implemented", "score": 0.5},
+      {"label": "Not Implemented", "score": 0.0},
+      {"label": "N/A", "score": null}
+    ],
+    "flag_if": "Not Implemented",
+    "severity": "High",
+    "effort": "Medium",
+    "fix_hint": "Review who has admin access and downgrade standard users. Most employees need Standard User, not Administrator.",
+    "smb_context": {
+      "Healthcare": "Front desk staff should not have the same Dentrix/EHR permissions as clinicians."
+    }
+  },
+  {
+    "id": "AC-03",
+    "domain": "Access Control & IAM",
+    "question": "Are user access reviews conducted at least quarterly?",
+    "weight": 2,
+    "answers": [
+      {"label": "Fully Implemented", "score": 1.0},
+      {"label": "Partially Implemented", "score": 0.5},
+      {"label": "Not Implemented", "score": 0.0},
+      {"label": "N/A", "score": null}
+    ],
+    "flag_if": "Not Implemented",
+    "severity": "Medium",
+    "effort": "Low",
+    "fix_hint": "Set a quarterly calendar reminder. Pull your M365/Google Workspace user list and verify every account is still active and appropriate.",
+    "smb_context": {}
+  },
+  {
+    "id": "AC-04",
+    "domain": "Access Control & IAM",
+    "question": "Do you have a formal process for revoking access upon employee termination or role change?",
+    "weight": 3,
+    "answers": [
+      {"label": "Fully Implemented", "score": 1.0},
+      {"label": "Partially Implemented", "score": 0.5},
+      {"label": "Not Implemented", "score": 0.0},
+      {"label": "N/A", "score": null}
+    ],
+    "flag_if": "Not Implemented",
+    "severity": "Critical",
+    "effort": "Low",
+    "fix_hint": "Create a one-page offboarding checklist: disable email, change shared passwords, revoke VPN/remote access, collect devices. Takes 15 minutes to write.",
+    "smb_context": {
+      "Healthcare": "Former employees with active EHR access is a leading cause of HIPAA breach investigations."
+    }
+  },
+  {
+    "id": "AC-05",
+    "domain": "Access Control & IAM",
+    "question": "Do you enforce a strong password policy (minimum length, complexity, expiration)?",
+    "weight": 2,
+    "answers": [
+      {"label": "Fully Implemented", "score": 1.0},
+      {"label": "Partially Implemented", "score": 0.5},
+      {"label": "Not Implemented", "score": 0.0},
+      {"label": "N/A", "score": null}
+    ],
+    "flag_if": "Not Implemented",
+    "severity": "Medium",
+    "effort": "Low",
+    "fix_hint": "NIST now recommends 12+ character passphrases without forced rotation. Configure this in your M365 or Google admin console.",
+    "smb_context": {}
+  },
+  {
+    "id": "AC-06",
+    "domain": "Access Control & IAM",
+    "question": "Are privileged accounts (admin, root) managed with a dedicated privileged access management solution?",
+    "weight": 2,
+    "answers": [
+      {"label": "Fully Implemented", "score": 1.0},
+      {"label": "Partially Implemented", "score": 0.5},
+      {"label": "Not Implemented", "score": 0.0},
+      {"label": "N/A", "score": null}
+    ],
+    "flag_if": "Not Implemented",
+    "severity": "Medium",
+    "effort": "High",
+    "fix_hint": "For small teams, start by using separate admin accounts (not your daily login) and storing admin passwords in a password manager like Bitwarden (free).",
+    "smb_context": {
+      "Healthcare": "For small practices, this means not logging into Windows as Administrator for daily work. Use a standard account and elevate when needed.",
+      "Finance": "PCI-DSS requires unique IDs for each person with computer access — no shared admin accounts."
+    }
+  },
+  {
+    "id": "VM-01",
+    "domain": "Vulnerability Management",
+    "question": "Do you perform regular vulnerability scans on all networked systems?",
+    "weight": 3,
+    "answers": [
+      {"label": "Fully Implemented", "score": 1.0},
+      {"label": "Partially Implemented", "score": 0.5},
+      {"label": "Not Implemented", "score": 0.0},
+      {"label": "N/A", "score": null}
+    ],
+    "flag_if": "Not Implemented",
+    "severity": "High",
+    "effort": "Medium",
+    "fix_hint": "OpenVAS (free) or Nessus Essentials (free for 16 IPs) can run quarterly scans. For very small offices, even Windows Defender's periodic scan counts as a start.",
+    "smb_context": {}
+  },
+  {
+    "id": "VM-02",
+    "domain": "Vulnerability Management",
+    "question": "Are critical and high-severity patches applied within 14 days of release?",
+    "weight": 3,
+    "answers": [
+      {"label": "Fully Implemented", "score": 1.0},
+      {"label": "Partially Implemented", "score": 0.5},
+      {"label": "Not Implemented", "score": 0.0},
+      {"label": "N/A", "score": null}
+    ],
+    "flag_if": "Not Implemented",
+    "severity": "Critical",
+    "effort": "Low",
+    "fix_hint": "Enable automatic Windows Updates on all machines. For the server, schedule a monthly maintenance window. Any end-of-life OS (Windows 7, Server 2012) must be replaced or isolated immediately.",
+    "smb_context": {
+      "Healthcare": "Unpatched systems storing ePHI are a top OCR enforcement target. EOL operating systems are indefensible in a breach investigation."
+    }
+  },
+  {
+    "id": "VM-03",
+    "domain": "Vulnerability Management",
+    "question": "Do you have an automated patch management system for operating systems and applications?",
+    "weight": 2,
+    "answers": [
+      {"label": "Fully Implemented", "score": 1.0},
+      {"label": "Partially Implemented", "score": 0.5},
+      {"label": "Not Implemented", "score": 0.0},
+      {"label": "N/A", "score": null}
+    ],
+    "flag_if": "Not Implemented",
+    "severity": "Medium",
+    "effort": "Medium",
+    "fix_hint": "Action1 (free for up to 200 endpoints) or PDQ Deploy can automate patching for small networks.",
+    "smb_context": {}
+  },
+  {
+    "id": "VM-04",
+    "domain": "Vulnerability Management",
+    "question": "Do you conduct annual penetration testing by a qualified third party?",
+    "weight": 2,
+    "answers": [
+      {"label": "Fully Implemented", "score": 1.0},
+      {"label": "Partially Implemented", "score": 0.5},
+      {"label": "Not Implemented", "score": 0.0},
+      {"label": "N/A", "score": null}
+    ],
+    "flag_if": "Not Implemented",
+    "severity": "Low",
+    "effort": "High",
+    "fix_hint": "For small businesses, an annual external vulnerability scan ($500–2,000) is a reasonable alternative to a full pentest until budget allows.",
+    "smb_context": {
+      "Finance": "PCI-DSS requires quarterly ASV scans and annual penetration testing for merchants processing card payments."
+    }
+  },
+  {
+    "id": "VM-05",
+    "domain": "Vulnerability Management",
+    "question": "Do you track and remediate identified vulnerabilities using a formal ticketing or tracking system?",
+    "weight": 2,
+    "answers": [
+      {"label": "Fully Implemented", "score": 1.0},
+      {"label": "Partially Implemented", "score": 0.5},
+      {"label": "Not Implemented", "score": 0.0},
+      {"label": "N/A", "score": null}
+    ],
+    "flag_if": "Not Implemented",
+    "severity": "Low",
+    "effort": "Low",
+    "fix_hint": "Even a shared spreadsheet tracking 'vulnerability, severity, owner, due date, status' satisfies this control for small teams.",
+    "smb_context": {}
+  },
+  {
+    "id": "DP-01",
+    "domain": "Data Protection & Backup",
+    "question": "Is sensitive data encrypted at rest and in transit?",
+    "weight": 3,
+    "answers": [
+      {"label": "Fully Implemented", "score": 1.0},
+      {"label": "Partially Implemented", "score": 0.5},
+      {"label": "Not Implemented", "score": 0.0},
+      {"label": "N/A", "score": null}
+    ],
+    "flag_if": "Not Implemented",
+    "severity": "Critical",
+    "effort": "Low",
+    "fix_hint": "Enable BitLocker on all Windows Pro laptops (free, built-in). Enforce HTTPS/TLS on your website and email. FileVault on Macs.",
+    "na_restricted": ["Healthcare", "Finance"],
+    "smb_context": {
+      "Healthcare": "HIPAA treats encryption as an addressable safeguard. If you don't encrypt, you must document why and what alternative protects ePHI. In practice, just encrypt.",
+      "Finance": "PCI-DSS requires encryption of cardholder data at rest and in transit. No exceptions."
+    }
+  },
+  {
+    "id": "DP-02",
+    "domain": "Data Protection & Backup",
+    "question": "Do you perform regular backups of critical data and systems?",
+    "weight": 3,
+    "answers": [
+      {"label": "Fully Implemented", "score": 1.0},
+      {"label": "Partially Implemented", "score": 0.5},
+      {"label": "Not Implemented", "score": 0.0},
+      {"label": "N/A", "score": null}
+    ],
+    "flag_if": "Not Implemented",
+    "severity": "Critical",
+    "effort": "Low",
+    "fix_hint": "Follow the 3-2-1 rule: 3 copies, 2 different media types, 1 offsite. Cloud backup services with HIPAA BAAs start at ~$30/month (Carbonite, Acronis).",
+    "na_restricted": ["Healthcare", "Finance", "Legal"],
+    "smb_context": {
+      "Healthcare": "A USB drive next to the server is not a backup strategy — ransomware encrypts attached drives. You need an offsite/cloud copy."
+    }
+  },
+  {
+    "id": "DP-03",
+    "domain": "Data Protection & Backup",
+    "question": "Are backups tested regularly to verify successful restoration?",
+    "weight": 3,
+    "answers": [
+      {"label": "Fully Implemented", "score": 1.0},
+      {"label": "Partially Implemented", "score": 0.5},
+      {"label": "Not Implemented", "score": 0.0},
+      {"label": "N/A", "score": null}
+    ],
+    "flag_if": "Not Implemented",
+    "severity": "High",
+    "effort": "Low",
+    "fix_hint": "Test a restore quarterly. Pick one critical file or database, restore it to a test location, and verify it opens correctly. Document the date and result.",
+    "smb_context": {}
+  },
+  {
+    "id": "DP-04",
+    "domain": "Data Protection & Backup",
+    "question": "Do you have a formal data classification policy that categorizes data by sensitivity?",
+    "weight": 2,
+    "answers": [
+      {"label": "Fully Implemented", "score": 1.0},
+      {"label": "Partially Implemented", "score": 0.5},
+      {"label": "Not Implemented", "score": 0.0},
+      {"label": "N/A", "score": null}
+    ],
+    "flag_if": "Not Implemented",
+    "severity": "Low",
+    "effort": "Low",
+    "fix_hint": "A simple three-tier model works: Public, Internal, Confidential. Map your data types to these tiers in a one-page document.",
+    "smb_context": {}
+  },
+  {
+    "id": "DP-05",
+    "domain": "Data Protection & Backup",
+    "question": "Are data loss prevention (DLP) controls in place to prevent unauthorized data exfiltration?",
+    "weight": 2,
+    "answers": [
+      {"label": "Fully Implemented", "score": 1.0},
+      {"label": "Partially Implemented", "score": 0.5},
+      {"label": "Not Implemented", "score": 0.0},
+      {"label": "N/A", "score": null}
+    ],
+    "flag_if": "Not Implemented",
+    "severity": "Medium",
+    "effort": "Medium",
+    "fix_hint": "For small teams, start by disabling USB mass storage via Group Policy and restricting personal email forwarding in M365/Google Workspace.",
+    "smb_context": {
+      "Healthcare": "For small practices, this means ensuring staff can't email patient lists to personal accounts or copy them to personal USB drives."
+    }
+  },
+  {
+    "id": "IR-01",
+    "domain": "Incident Response",
+    "question": "Do you have a documented incident response plan?",
+    "weight": 3,
+    "answers": [
+      {"label": "Fully Implemented", "score": 1.0},
+      {"label": "Partially Implemented", "score": 0.5},
+      {"label": "Not Implemented", "score": 0.0},
+      {"label": "N/A", "score": null}
+    ],
+    "flag_if": "Not Implemented",
+    "severity": "Critical",
+    "effort": "Low",
+    "fix_hint": "Download HHS OCR's free IRP template or NIST SP 800-61. Customize it in an afternoon: add your IT contact, a HIPAA attorney, your cyber insurance hotline, and the HHS breach reporting URL.",
+    "na_restricted": ["Healthcare", "Finance", "Legal"],
+    "smb_context": {
+      "Healthcare": "HIPAA requires a breach notification plan. You have 60 days from discovery to notify HHS and affected individuals for breaches of 500+ records."
+    }
+  },
+  {
+    "id": "IR-02",
+    "domain": "Incident Response",
+    "question": "Is the incident response plan tested at least annually through tabletop exercises or simulations?",
+    "weight": 3,
+    "answers": [
+      {"label": "Fully Implemented", "score": 1.0},
+      {"label": "Partially Implemented", "score": 0.5},
+      {"label": "Not Implemented", "score": 0.0},
+      {"label": "N/A", "score": null}
+    ],
+    "flag_if": "Not Implemented",
+    "severity": "Medium",
+    "effort": "Low",
+    "fix_hint": "A tabletop exercise can be a 30-minute team meeting: 'Imagine we got ransomware today — what do we do first?' Walk through your IRP together.",
+    "smb_context": {}
+  },
+  {
+    "id": "IR-03",
+    "domain": "Incident Response",
+    "question": "Are roles and responsibilities clearly defined for incident response team members?",
+    "weight": 2,
+    "answers": [
+      {"label": "Fully Implemented", "score": 1.0},
+      {"label": "Partially Implemented", "score": 0.5},
+      {"label": "Not Implemented", "score": 0.0},
+      {"label": "N/A", "score": null}
+    ],
+    "flag_if": "Not Implemented",
+    "severity": "Medium",
+    "effort": "Low",
+    "fix_hint": "For small teams: designate one person as the incident lead, one as the communications lead. Add their names and phone numbers to the IRP.",
+    "smb_context": {}
+  },
+  {
+    "id": "IR-04",
+    "domain": "Incident Response",
+    "question": "Do you have centralized log collection and monitoring (SIEM or equivalent)?",
+    "weight": 2,
+    "answers": [
+      {"label": "Fully Implemented", "score": 1.0},
+      {"label": "Partially Implemented", "score": 0.5},
+      {"label": "Not Implemented", "score": 0.0},
+      {"label": "N/A", "score": null}
+    ],
+    "flag_if": "Not Implemented",
+    "severity": "Medium",
+    "effort": "High",
+    "fix_hint": "For small businesses, enabling audit logging in M365/Google Workspace and reviewing the sign-in logs monthly is a practical starting point. Full SIEM solutions like Wazuh are free but require technical setup.",
+    "smb_context": {
+      "Healthcare": "For small practices, this could mean enabling Dentrix audit logging and reviewing it monthly, plus checking M365 sign-in reports."
+    }
+  },
+  {
+    "id": "IR-05",
+    "domain": "Incident Response",
+    "question": "Do you have established communication protocols for notifying stakeholders during a security incident?",
+    "weight": 2,
+    "answers": [
+      {"label": "Fully Implemented", "score": 1.0},
+      {"label": "Partially Implemented", "score": 0.5},
+      {"label": "Not Implemented", "score": 0.0},
+      {"label": "N/A", "score": null}
+    ],
+    "flag_if": "Not Implemented",
+    "severity": "Medium",
+    "effort": "Low",
+    "fix_hint": "Add a 'Communications' section to your IRP with: who notifies patients, who contacts the insurance carrier, who handles media inquiries, and template breach notification letters.",
+    "smb_context": {}
+  },
+  {
+    "id": "VR-01",
+    "domain": "Vendor & Third-Party Risk",
+    "question": "Do you conduct security assessments of third-party vendors before onboarding?",
+    "weight": 3,
+    "answers": [
+      {"label": "Fully Implemented", "score": 1.0},
+      {"label": "Partially Implemented", "score": 0.5},
+      {"label": "Not Implemented", "score": 0.0},
+      {"label": "N/A", "score": null}
+    ],
+    "flag_if": "Not Implemented",
+    "severity": "Medium",
+    "effort": "Medium",
+    "fix_hint": "Create a simple vendor security questionnaire (5–10 questions). Ask: Do you encrypt data? Do you have a SOC 2? Will you sign our BAA? Many vendors provide this proactively.",
+    "smb_context": {
+      "Healthcare": "HIPAA requires due diligence on any vendor that will access, store, or transmit ePHI."
+    }
+  },
+  {
+    "id": "VR-02",
+    "domain": "Vendor & Third-Party Risk",
+    "question": "Do vendor contracts include security requirements and data protection clauses?",
+    "weight": 2,
+    "answers": [
+      {"label": "Fully Implemented", "score": 1.0},
+      {"label": "Partially Implemented", "score": 0.5},
+      {"label": "Not Implemented", "score": 0.0},
+      {"label": "N/A", "score": null}
+    ],
+    "flag_if": "Not Implemented",
+    "severity": "High",
+    "effort": "Low",
+    "fix_hint": "For each vendor that touches sensitive data, confirm a signed BAA or DPA exists. Most major vendors (Microsoft, Google, Intuit) have standard templates available on request.",
+    "smb_context": {
+      "Healthcare": "A signed Business Associate Agreement is legally required for every vendor handling ePHI. No exceptions, no verbal agreements."
+    }
+  },
+  {
+    "id": "VR-03",
+    "domain": "Vendor & Third-Party Risk",
+    "question": "Do you maintain an inventory of all third-party services that have access to your data?",
+    "weight": 2,
+    "answers": [
+      {"label": "Fully Implemented", "score": 1.0},
+      {"label": "Partially Implemented", "score": 0.5},
+      {"label": "Not Implemented", "score": 0.0},
+      {"label": "N/A", "score": null}
+    ],
+    "flag_if": "Not Implemented",
+    "severity": "Medium",
+    "effort": "Low",
+    "fix_hint": "Build a one-page vendor register: vendor name, what data they access, BAA status, contract renewal date. Most small businesses undercount their vendors by 50%.",
+    "smb_context": {}
+  },
+  {
+    "id": "VR-04",
+    "domain": "Vendor & Third-Party Risk",
+    "question": "Do you periodically reassess the security posture of existing vendors?",
+    "weight": 2,
+    "answers": [
+      {"label": "Fully Implemented", "score": 1.0},
+      {"label": "Partially Implemented", "score": 0.5},
+      {"label": "Not Implemented", "score": 0.0},
+      {"label": "N/A", "score": null}
+    ],
+    "flag_if": "Not Implemented",
+    "severity": "Low",
+    "effort": "Medium",
+    "fix_hint": "Review your vendor register annually. Check if vendors have had breaches, confirm BAAs are current, and verify you still need each vendor's access.",
+    "smb_context": {}
+  },
+  {
+    "id": "CR-01",
+    "domain": "Compliance & Regulatory",
+    "question": "Have you identified all regulatory frameworks applicable to your organization (HIPAA, PCI-DSS, SOX, GDPR, etc.)?",
+    "weight": 3,
+    "answers": [
+      {"label": "Fully Implemented", "score": 1.0},
+      {"label": "Partially Implemented", "score": 0.5},
+      {"label": "Not Implemented", "score": 0.0},
+      {"label": "N/A", "score": null}
+    ],
+    "flag_if": "Not Implemented",
+    "severity": "High",
+    "effort": "Low",
+    "fix_hint": "Common triggers: accept credit cards → PCI-DSS. Handle health info → HIPAA. Have EU customers → GDPR. Publicly traded → SOX. Most small businesses have at least PCI-DSS exposure.",
+    "na_restricted": ["Healthcare", "Finance", "Legal"],
+    "smb_context": {
+      "Healthcare": "HIPAA applies to all covered entities and their business associates. If you bill insurance or handle PHI, you are covered. PCI-DSS also likely applies if you process credit card payments.",
+      "Finance": "PCI-DSS, SOX (if publicly traded), GLBA, and state privacy laws likely apply."
+    }
+  },
+  {
+    "id": "CR-02",
+    "domain": "Compliance & Regulatory",
+    "question": "Do you have documented information security policies reviewed and updated at least annually?",
+    "weight": 3,
+    "answers": [
+      {"label": "Fully Implemented", "score": 1.0},
+      {"label": "Partially Implemented", "score": 0.5},
+      {"label": "Not Implemented", "score": 0.0},
+      {"label": "N/A", "score": null}
+    ],
+    "flag_if": "Not Implemented",
+    "severity": "High",
+    "effort": "Medium",
+    "fix_hint": "SANS provides free policy templates at sans.org/information-security-policy. Customize a set of 5–10 core policies for your organization.",
+    "smb_context": {
+      "Healthcare": "HIPAA requires written policies and procedures for the Security Rule. Lack of documentation is the #1 OCR audit finding."
+    }
+  },
+  {
+    "id": "CR-03",
+    "domain": "Compliance & Regulatory",
+    "question": "Do you conduct regular internal or external compliance audits?",
+    "weight": 2,
+    "answers": [
+      {"label": "Fully Implemented", "score": 1.0},
+      {"label": "Partially Implemented", "score": 0.5},
+      {"label": "Not Implemented", "score": 0.0},
+      {"label": "N/A", "score": null}
+    ],
+    "flag_if": "Not Implemented",
+    "severity": "Medium",
+    "effort": "Medium",
+    "fix_hint": "For small businesses, an annual self-assessment using this tool counts as an internal audit. Document the results and remediation actions taken.",
+    "smb_context": {}
+  },
+  {
+    "id": "CR-04",
+    "domain": "Compliance & Regulatory",
+    "question": "Do you maintain evidence of compliance activities (audit logs, policy acknowledgments, training records)?",
+    "weight": 2,
+    "answers": [
+      {"label": "Fully Implemented", "score": 1.0},
+      {"label": "Partially Implemented", "score": 0.5},
+      {"label": "Not Implemented", "score": 0.0},
+      {"label": "N/A", "score": null}
+    ],
+    "flag_if": "Not Implemented",
+    "severity": "Medium",
+    "effort": "Low",
+    "fix_hint": "Create a 'Compliance Evidence' folder. Save training completion certificates, signed policy acknowledgments, and assessment reports. Regulators want to see documentation, not just effort.",
+    "smb_context": {
+      "Healthcare": "HIPAA requires 6-year document retention. Keep training records, risk assessments, and policy versions."
+    }
+  },
+  {
+    "id": "PS-01",
+    "domain": "Physical Security",
+    "question": "Are server rooms and network infrastructure physically secured with access controls?",
+    "weight": 3,
+    "answers": [
+      {"label": "Fully Implemented", "score": 1.0},
+      {"label": "Partially Implemented", "score": 0.5},
+      {"label": "Not Implemented", "score": 0.0},
+      {"label": "N/A", "score": null}
+    ],
+    "flag_if": "Not Implemented",
+    "severity": "High",
+    "effort": "Low",
+    "fix_hint": "Install a keypad lock on the server closet ($50–100). Set up a basic webcam (Wyze, $30). Keep the door locked during and after business hours.",
+    "smb_context": {}
+  },
+  {
+    "id": "PS-02",
+    "domain": "Physical Security",
+    "question": "Are visitor access logs maintained and reviewed?",
+    "weight": 1,
+    "answers": [
+      {"label": "Fully Implemented", "score": 1.0},
+      {"label": "Partially Implemented", "score": 0.5},
+      {"label": "Not Implemented", "score": 0.0},
+      {"label": "N/A", "score": null}
+    ],
+    "flag_if": "Not Implemented",
+    "severity": "Low",
+    "effort": "Low",
+    "fix_hint": "A paper sign-in sheet at the front desk satisfies this control. Log name, company, purpose, and time in/out.",
+    "smb_context": {}
+  },
+  {
+    "id": "PS-03",
+    "domain": "Physical Security",
+    "question": "Do you have environmental controls (fire suppression, climate control, UPS) for critical infrastructure?",
+    "weight": 2,
+    "answers": [
+      {"label": "Fully Implemented", "score": 1.0},
+      {"label": "Partially Implemented", "score": 0.5},
+      {"label": "Not Implemented", "score": 0.0},
+      {"label": "N/A", "score": null}
+    ],
+    "flag_if": "Not Implemented",
+    "severity": "Medium",
+    "effort": "Low",
+    "fix_hint": "An APC UPS ($150–250) prevents power-related database corruption and gives you 10–15 minutes to shut down cleanly during outages.",
+    "smb_context": {}
+  },
+  {
+    "id": "SA-01",
+    "domain": "Security Awareness & Training",
+    "question": "Do all employees receive security awareness training upon hire and at least annually thereafter?",
+    "weight": 3,
+    "answers": [
+      {"label": "Fully Implemented", "score": 1.0},
+      {"label": "Partially Implemented", "score": 0.5},
+      {"label": "Not Implemented", "score": 0.0},
+      {"label": "N/A", "score": null}
+    ],
+    "flag_if": "Not Implemented",
+    "severity": "High",
+    "effort": "Low",
+    "fix_hint": "KnowBe4, Compliancy Group, and HIPAA Training offer affordable plans ($10–30/user/year). Enroll all staff, track completion dates.",
+    "na_restricted": ["Healthcare", "Finance"],
+    "smb_context": {
+      "Healthcare": "HIPAA requires workforce security training. Document completion dates — OCR will ask for them."
+    }
+  },
+  {
+    "id": "SA-02",
+    "domain": "Security Awareness & Training",
+    "question": "Do you conduct regular phishing simulation exercises?",
+    "weight": 2,
+    "answers": [
+      {"label": "Fully Implemented", "score": 1.0},
+      {"label": "Partially Implemented", "score": 0.5},
+      {"label": "Not Implemented", "score": 0.0},
+      {"label": "N/A", "score": null}
+    ],
+    "flag_if": "Not Implemented",
+    "severity": "Medium",
+    "effort": "Low",
+    "fix_hint": "KnowBe4 offers free phishing simulation tools. Run one campaign per quarter. It's the single best way to measure whether training is working.",
+    "smb_context": {}
+  },
+  {
+    "id": "SA-03",
+    "domain": "Security Awareness & Training",
+    "question": "Are employees trained on identifying and reporting social engineering attacks?",
+    "weight": 2,
+    "answers": [
+      {"label": "Fully Implemented", "score": 1.0},
+      {"label": "Partially Implemented", "score": 0.5},
+      {"label": "Not Implemented", "score": 0.0},
+      {"label": "N/A", "score": null}
+    ],
+    "flag_if": "Not Implemented",
+    "severity": "Medium",
+    "effort": "Low",
+    "fix_hint": "Include social engineering scenarios in your annual training. Cover phone pretexting, USB drops, and tailgating — not just email phishing.",
+    "smb_context": {}
+  },
+  {
+    "id": "SA-04",
+    "domain": "Security Awareness & Training",
+    "question": "Do you provide role-specific security training for IT staff and administrators?",
+    "weight": 2,
+    "answers": [
+      {"label": "Fully Implemented", "score": 1.0},
+      {"label": "Partially Implemented", "score": 0.5},
+      {"label": "Not Implemented", "score": 0.0},
+      {"label": "N/A", "score": null}
+    ],
+    "flag_if": "Not Implemented",
+    "severity": "Low",
+    "effort": "Medium",
+    "fix_hint": "For small teams without dedicated IT, ensure whoever manages your systems completes at least one cybersecurity fundamentals course annually (Cybrary and CISA offer free courses).",
+    "smb_context": {}
+  }
+]
