@@ -38,18 +38,22 @@ export default function LandingPage({ onGetStarted, onClientPortal }) {
             <span className="text-[15px] font-semibold text-white tracking-[-0.01em]">CyberAssess</span>
           </div>
           <div className="flex items-center gap-2">
-            <button
-              onClick={onClientPortal}
+            <a
+              href="/client"
+              target="_blank"
+              rel="noopener noreferrer"
               className="px-4 py-2 text-sm text-muted hover:text-white border border-white/[0.08] rounded-lg hover:border-white/[0.15] hover:bg-white/[0.03] transition-all duration-200"
             >
               Client Portal
-            </button>
-            <button
-              onClick={onGetStarted}
+            </a>
+            <a
+              href="/admin"
+              target="_blank"
+              rel="noopener noreferrer"
               className="px-4 py-2 text-sm text-white bg-accent/80 hover:bg-accent rounded-lg transition-all duration-200"
             >
               Admin
-            </button>
+            </a>
           </div>
         </nav>
 
