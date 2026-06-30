@@ -32,7 +32,7 @@ import database as db
 
 load_dotenv()
 
-ALLOWED_ORIGINS = os.getenv("ALLOWED_ORIGINS", "http://localhost:5173,http://localhost:3000").split(",")
+ALLOWED_ORIGINS = os.getenv("ALLOWED_ORIGINS", "http://localhost:5173,http://localhost:3000,https://cyberassess.netlify.app").split(",")
 
 limiter = Limiter(key_func=get_remote_address)
 app = FastAPI(title="Cybersecurity Risk Assessment API")
